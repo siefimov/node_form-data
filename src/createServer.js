@@ -85,10 +85,6 @@ function createServer() {
     console.log('Server error:', error.message);
   });
 
-  server.on('close', () => {
-    console.log('Server is closed');
-  });
-
   return server;
 }
 
