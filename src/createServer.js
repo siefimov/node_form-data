@@ -55,11 +55,6 @@ function createServer() {
           const expense = JSON.parse(formData);
           const fileToWriteData = path.join('db', 'expense.json');
 
-          if (!fs.existsSync(fileToWriteData)) {
-            res.statusCode = 404;
-            res.end('Not found');
-          }
-
           if (!expense.date || !expense.title || !expense.amount) {
             res.statusCode = 400;
             res.end('Invalid data.');
@@ -67,7 +62,8 @@ function createServer() {
             return;
           }
 
-          fs.writeFileSync(fileToWriteData, JSON.stringify(expense));
+          fs.mkdirSync(path.dirname(fileToWriteData), { recursive: true });
+          fs.writeFileSync(fileToWriteData, JSON.stringify(expense, null, 2));
 
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
